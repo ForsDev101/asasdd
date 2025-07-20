@@ -1,0 +1,23 @@
+{
+  "name": "rp-sunucu-kurulum-botu",
+  "version": "1.0.0",
+  "description": "Orta Çağ RP sunucusu kurulum botu",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "discord",
+    "rp",
+    "sunucu",
+    "kurulum",
+    "bot"
+  ],
+  "author": "sys.fors",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^14.11.0",
+    "dotenv": "^16.3.1"
+  }
+}
