@@ -5,7 +5,7 @@ import { Client, GatewayIntentBits, Partials } from 'discord.js';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-const TOKEN = process.env.DISCORD_TOKEN;
+const TOKEN = process.env.TOKEN;
 
 const client = new Client({
   intents: [
