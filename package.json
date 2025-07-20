@@ -1,23 +1,16 @@
 {
-  "name": "rp-sunucu-kurulum-botu",
+  "name": "krallik-kurulum-botu",
   "version": "1.0.0",
-  "description": "Orta Çağ RP sunucusu kurulum botu",
-  "main": "index.js",
-  "type": "module",
+  "description": "Discord sunucusu kurulum botu (krallıklar, roller, kanallar vs.)",
+  "main": "index.cjs",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.cjs"
   },
-  "keywords": [
-    "discord",
-    "rp",
-    "sunucu",
-    "kurulum",
-    "bot"
-  ],
-  "author": "sys.fors",
-  "license": "MIT",
   "dependencies": {
-    "discord.js": "^14.11.0",
+    "discord.js": "^14.14.1",
     "dotenv": "^16.3.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
