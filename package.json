@@ -1,18 +1,14 @@
 {
-  "name": "discord-abuse-bot",
+  "name": "abuse-bot",
   "version": "1.0.0",
-  "description": "Discord sunucularını koruyan abuse engelleyici bot",
+  "description": "Abuse koruma sistemi",
   "main": "src/index.js",
   "type": "module",
   "scripts": {
     "start": "node src/index.js"
   },
-  "keywords": ["discord", "abuse", "guard", "security", "bot"],
-  "author": "sys.fors",
-  "license": "MIT",
   "dependencies": {
-    "discord.js": "^14.14.1",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2"
+    "discord.js": "^14.11.0",
+    "dotenv": "^16.3.1"
   }
 }
