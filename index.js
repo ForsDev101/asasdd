@@ -1,44 +1,112 @@
-import { Client, GatewayIntentBits, PermissionsBitField } from 'discord.js';
-import dotenv from 'dotenv';
-dotenv.config();
+const { Client, GatewayIntentBits } = require('discord.js');
+require('dotenv').config();
 
 const client = new Client({
-  intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.GuildMembers,
-    GatewayIntentBits.MessageContent
-  ]
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
 });
 
-client.on('ready', () => {
-  console.log(`${client.user.tag} olarak giriş yapıldı.`);
-});
+const roles = [
+  // Yönetim
+  { name: 'Founder', emoji: '👑' },
+  { name: 'Admin', emoji: '🛡️' },
+  { name: 'Moderator', emoji: '🔧' },
+  { name: 'Kayıt Sorumlusu', emoji: '📜' },
+  { name: 'Geliştirici', emoji: '🧠' },
+  { name: 'Yetkili Ekibi', emoji: '👥' },
+  { name: 'Duyuru Ekibi', emoji: '📢' },
+  { name: 'İstatistik Ekibi', emoji: '📊' },
 
-// Örnek rol oluşturma komutu (!rololuştur <isim> <renk> <izin>)
-client.on('messageCreate', async message => {
-  if (!message.content.startsWith('!rololuştur')) return;
-  if (!message.member.permissions.has(PermissionsBitField.Flags.Administrator)) return;
+  // Genel Meslekler
+  { name: 'Genel Meslek Roller', emoji: '🧑‍🏭' },
+  { name: 'Oduncu', emoji: '🪓' },
+  { name: 'Madenci', emoji: '⛏️' },
+  { name: 'Çiftçi', emoji: '🌾' },
+  { name: 'Balıkçı', emoji: '🐟' },
+  { name: 'Terzi', emoji: '🧵' },
+  { name: 'Marangoz', emoji: '🪚' },
+  { name: 'Demirci', emoji: '🔨' },
+  { name: 'Fırıncı', emoji: '🍞' },
+  { name: 'Kasap', emoji: '🥩' },
+  { name: 'Aşçı', emoji: '🧂' },
+  { name: 'Avcı', emoji: '🏹' },
+  { name: 'Simyacı', emoji: '🧪' },
+  { name: 'Tüccar', emoji: '💰' },
+  { name: 'Vergici', emoji: '⚖️' },
+  { name: 'Çoban', emoji: '🐑' },
+  { name: 'Bilgin', emoji: '📚' },
+  { name: 'Büyücü', emoji: '🔮' },
+  { name: 'Sanatçı', emoji: '🎭' },
+  { name: 'Köylü', emoji: '🧺' },
+  { name: 'Kervancı', emoji: '📦' },
+  { name: 'Seyis', emoji: '🐴' },
+  { name: 'Zırhçı', emoji: '🛡️' },
+  { name: 'Kâşif', emoji: '🗺️' },
+  { name: 'Katip', emoji: '📜' },
+  { name: 'Göçebe', emoji: '🧳' },
+  { name: 'Şifacı', emoji: '🩺' },
+  { name: 'Tamirci', emoji: '🔧' },
+  { name: 'Mimar', emoji: '🏛️' },
+  { name: 'Rune Ustası', emoji: '🪄' },
+  { name: 'Ateş Ustası', emoji: '🔥' },
+  { name: 'Denizci', emoji: '🛶' },
+  { name: 'Kervan Koruyucusu', emoji: '🐪' },
+  { name: 'Gece Bekçisi', emoji: '🏮' },
+];
 
-  const args = message.content.split(' ').slice(1);
-  const [isim, renk, ...izinler] = args;
+const kingdoms = [
+  'Kutsal Roma', 'Bizans', 'Osmanlı', 'Viking',
+  'Moğol', 'Sasani', 'Frank', 'Babür',
+  'Emevi', 'Macar', 'Gürcü'
+];
 
-  if (!isim || !renk) {
-    return message.reply('Kullanım: `!rololuştur <isim> <renk> [izin1 izin2 ...]`');
+const kingdomRoles = [
+  { type: 'Kralı', emoji: '👑' },
+  { type: 'Veliahtı', emoji: '🤴' },
+  { type: 'Komutanı', emoji: '⚔️' },
+  { type: 'Muhafızı', emoji: '🛡️' },
+  { type: 'Avcısı', emoji: '🏹' },
+  { type: 'Madencisi', emoji: '⛏️' },
+  { type: 'Demircisi', emoji: '🔨' },
+  { type: 'Fırıncısı', emoji: '🍞' },
+  { type: 'Çiftçisi', emoji: '🌾' },
+  { type: 'Balıkçısı', emoji: '🐟' },
+  { type: 'Terzisi', emoji: '🧵' },
+  { type: 'Tüccarı', emoji: '💰' },
+  { type: 'Simyacısı', emoji: '🧪' },
+  { type: 'Şifacısı', emoji: '🩺' },
+];
+
+client.once('ready', async () => {
+  console.log(`${client.user.tag} giriş yaptı.`);
+
+  const guild = client.guilds.cache.first(); // İlk sunucuyu al
+
+  if (!guild) {
+    console.log('Bot bir sunucuda değil.');
+    return;
   }
 
-  try {
-    const role = await message.guild.roles.create({
-      name: isim,
-      color: renk,
-      permissions: izinler
-    });
-
-    message.reply(`✅ Rol oluşturuldu: <@&${role.id}>`);
-  } catch (err) {
-    console.error(err);
-    message.reply('❌ Rol oluşturulurken hata oluştu.');
+  // Yönetim ve genel meslek rolleri
+  for (const role of roles) {
+    const roleName = `${role.emoji} ${role.name}`;
+    if (!guild.roles.cache.find(r => r.name === roleName)) {
+      await guild.roles.create({ name: roleName, reason: 'Otomatik rol ekleme' });
+      console.log(`Oluşturuldu: ${roleName}`);
+    }
   }
+
+  // Krallıklara özel roller
+  for (const kingdom of kingdoms) {
+    for (const role of kingdomRoles) {
+      const roleName = `${role.emoji} ${kingdom} ${role.type}`;
+      if (!guild.roles.cache.find(r => r.name === roleName)) {
+        await guild.roles.create({ name: roleName, reason: 'Krallık rolü ekleme' });
+        console.log(`Oluşturuldu: ${roleName}`);
+      }
+    }
+  }
+
+  console.log('Tüm roller oluşturuldu!');
 });
 
 client.login(process.env.TOKEN);
