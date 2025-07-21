@@ -1,7 +1,7 @@
 {
-  "name": "abuse-bot",
+  "name": "rol-olusturucu-bot",
   "version": "1.0.0",
-  "type": "module",
+  "description": "Discord sunucusuna otomatik rol oluşturan bot",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
